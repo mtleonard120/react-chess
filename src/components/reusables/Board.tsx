@@ -1,25 +1,69 @@
 import * as React from 'react'
 
-// Utils
-import { s } from '../../utils'
+// Components
+import { Square, Pawn, Rook, Bishop, Knight, Queen, King } from '../reusables'
 
 // Styles
 import styles from './Board.module.css'
-import { Square } from './Square'
+
+// Interfaces
+import { IPiece } from '../../types'
 
 interface IBoardProps {
     isDark?: boolean
+    pieces: IPiece[]
+    isBlackTurn: boolean
 }
 
 export const Board = (props: IBoardProps) => {
-    const c1: JSX.Element[] = []
-    const c2: JSX.Element[] = []
+    const board: JSX.Element[][] = [[], [], [], [], [], [], [], []]
 
-    for (let i = 0; i < 8; i++) {
-        c1.push(<Square isDark={i % 2 === 1} />)
-        c2.push(<Square isDark={i % 2 === 0} />)
+    for (let file = 0; file < 8; file++) {
+        for (let rank = 0; rank < 8; rank++) {
+            const piece = props.pieces.find(
+                (p: IPiece) => p.rank === rank && p.file === file
+            )
+
+            let symbol: JSX.Element | undefined = undefined
+
+            if (piece) {
+                switch (piece.type) {
+                    case 'pawn':
+                        symbol = <Pawn isBlack={piece.isBlack} />
+                        break
+                    case 'rook':
+                        symbol = <Rook isBlack={piece.isBlack} />
+                        break
+                    case 'bishop':
+                        symbol = <Bishop isBlack={piece.isBlack} />
+                        break
+                    case 'knight':
+                        symbol = <Knight isBlack={piece.isBlack} />
+                        break
+                    case 'queen':
+                        symbol = <Queen isBlack={piece.isBlack} />
+                        break
+                    case 'king':
+                        symbol = <King isBlack={piece.isBlack} />
+                        break
+                }
+            }
+
+            const isDark = (rank + file) % 2 === 1
+
+            board[file][rank] = (
+                <Square
+                    isDark={isDark}
+                    piece={symbol}
+                    isHoverable={
+                        piece &&
+                        ((piece.isBlack && props.isBlackTurn) ||
+                            (!piece.isBlack && !props.isBlackTurn))
+                    }
+                />
+            )
+        }
     }
-    const board: JSX.Element[][] = [c1, c2, c1, c2, c1, c2, c1, c2]
 
     return (
         <div className={styles.board}>

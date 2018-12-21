@@ -1,3 +1,8 @@
 .board {
     display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: black;
+    box-sizing: border-box;
 }

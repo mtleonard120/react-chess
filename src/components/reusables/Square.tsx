@@ -8,13 +8,18 @@ import styles from './Square.module.css'
 
 interface ISquareProps {
     isDark?: boolean
+    isHoverable?: boolean
     piece?: JSX.Element
 }
 
-export const Square = (props: ISquareProps) => {
-    return (
-        <div className={s(styles.square, props.isDark && styles.dark)}>
-            {props.piece}
-        </div>
-    )
-}
+export const Square = (props: ISquareProps) => (
+    <div
+        className={s(
+            styles.square,
+            props.isDark && styles.dark,
+            props.isHoverable && styles.isHoverable
+        )}
+    >
+        {props.piece}
+    </div>
+)

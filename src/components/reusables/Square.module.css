@@ -1,11 +1,19 @@
 .square {
-    background: lightgray;
-    width: 100px;
-    height: 100px;
+    background: darkgray;
+    width: 10vh;
+    height: 10vh;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    border: 5px solid transparent;
+}
+
+.square.isHoverable:hover {
+    z-index: 3;
+    cursor: pointer;
+    border: 5px solid black;
 }
 
 .dark {
