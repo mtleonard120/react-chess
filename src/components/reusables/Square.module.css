@@ -1,0 +1,9 @@
+.square {
+    background: lightgray;
+    width: 100px;
+    height: 100px;
+}
+
+.dark {
+    background: darkgreen;
+}
