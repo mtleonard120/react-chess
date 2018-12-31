@@ -6,3 +6,7 @@
     background: black;
     box-sizing: border-box;
 }
+
+.selected {
+    background: purple !important;
+}

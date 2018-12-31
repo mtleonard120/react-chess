@@ -1,77 +1,120 @@
-import * as React from 'react'
+import * as React from "react";
+
+// Packages
+import produce from "immer";
+import _ from "lodash";
 
 // Components
-import { Square, Pawn, Rook, Bishop, Knight, Queen, King } from '../reusables'
+import { Square, Pawn, Rook, Bishop, Knight, Queen, King } from "../reusables";
+
+// Utils
+import { s } from "../../utils";
 
 // Styles
-import styles from './Board.module.css'
+import styles from "./Board.module.css";
 
 // Interfaces
-import { IPiece } from '../../types'
+import { IPiece } from "../../types";
 
 interface IBoardProps {
-    isDark?: boolean
-    pieces: IPiece[]
-    isBlackTurn: boolean
+    pieces: IPiece[]; // The initial game state is passed in as a prop
 }
 
-export const Board = (props: IBoardProps) => {
-    const board: JSX.Element[][] = [[], [], [], [], [], [], [], []]
+interface IBoardState {
+    pieces: IPiece[];
+    isBlackTurn: boolean;
+    selectedSquare?: [number, number];
+    board: JSX.Element[][];
+}
 
-    for (let file = 0; file < 8; file++) {
-        for (let rank = 0; rank < 8; rank++) {
-            const piece = props.pieces.find(
-                (p: IPiece) => p.rank === rank && p.file === file
-            )
+export class Board extends React.Component<IBoardProps, IBoardState> {
+    constructor(props: IBoardProps) {
+        super(props);
 
-            let symbol: JSX.Element | undefined = undefined
+        // Make an 8 x 8 array of arrays to represent the board.
+        const board: JSX.Element[][] = [[], [], [], [], [], [], [], []];
+        const isBlackTurn = false;
 
-            if (piece) {
-                switch (piece.type) {
-                    case 'pawn':
-                        symbol = <Pawn isBlack={piece.isBlack} />
-                        break
-                    case 'rook':
-                        symbol = <Rook isBlack={piece.isBlack} />
-                        break
-                    case 'bishop':
-                        symbol = <Bishop isBlack={piece.isBlack} />
-                        break
-                    case 'knight':
-                        symbol = <Knight isBlack={piece.isBlack} />
-                        break
-                    case 'queen':
-                        symbol = <Queen isBlack={piece.isBlack} />
-                        break
-                    case 'king':
-                        symbol = <King isBlack={piece.isBlack} />
-                        break
-                }
-            }
+        for (let file = 0; file < 8; file++) {
+            for (let rank = 0; rank < 8; rank++) {
+                const piece = props.pieces.find(
+                    (p: IPiece) => p.rank === rank && p.file === file
+                );
 
-            const isDark = (rank + file) % 2 === 1
+                let symbol: JSX.Element | undefined = undefined;
 
-            board[file][rank] = (
-                <Square
-                    isDark={isDark}
-                    piece={symbol}
-                    isHoverable={
-                        piece &&
-                        ((piece.isBlack && props.isBlackTurn) ||
-                            (!piece.isBlack && !props.isBlackTurn))
+                if (piece) {
+                    switch (piece.type) {
+                        case "pawn":
+                            symbol = <Pawn isBlack={piece.isBlack} />;
+                            break;
+                        case "rook":
+                            symbol = <Rook isBlack={piece.isBlack} />;
+                            break;
+                        case "bishop":
+                            symbol = <Bishop isBlack={piece.isBlack} />;
+                            break;
+                        case "knight":
+                            symbol = <Knight isBlack={piece.isBlack} />;
+                            break;
+                        case "queen":
+                            symbol = <Queen isBlack={piece.isBlack} />;
+                            break;
+                        case "king":
+                            symbol = <King isBlack={piece.isBlack} />;
+                            break;
                     }
-                />
-            )
+                }
+
+                const isDark = (rank + file) % 2 === 1;
+
+                board[file][rank] = (
+                    <Square
+                        isDark={isDark}
+                        piece={symbol}
+                        isHoverable={
+                            piece &&
+                            ((piece.isBlack && isBlackTurn) ||
+                                (!piece.isBlack && !isBlackTurn))
+                        }
+                    />
+                );
+            }
         }
+
+        this.state = {
+            pieces: props.pieces,
+            isBlackTurn: false,
+            board,
+        };
     }
 
-    return (
-        <div className={styles.board}>
-            {board.map((c: JSX.Element[]) => (
-                <div className={styles.column}>
-                    {c.map((s: JSX.Element) => s)}
-                </div>
-            ))}
-        </div>
-    )
+    public onSquareClick = (file: number, rank: number) => {
+        this.setState({ selectedSquare: [file, rank] });
+    }
+
+    public render = () => {
+        const { board, selectedSquare } = this.state;
+
+        return (
+            <div className={styles.board}>
+                {board.map((c: JSX.Element[], file: number) => (
+                    <div key={-file} className={styles.column}>
+                        {c.map((sq: JSX.Element, rank: number) => (
+                            <div
+                                className={s(
+                                    _.isEqual(selectedSquare, [file, rank]) &&
+                                        styles.selected
+                                )}
+                                onClick={() => this.onSquareClick(file, rank)}
+                                key={file + 0.1 * rank}
+                            >
+                                {sq}
+                            </div>
+                        ))}
+                    </div>
+                ))}
+            </div>
+        );
+    }
 }
