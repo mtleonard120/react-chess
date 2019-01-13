@@ -1,15 +1,15 @@
-import * as React from 'react'
+import * as React from "react";
 
 // Utils
-import { s } from '../../utils'
+import { s } from "../../utils";
 
 // Styles
-import styles from './Square.module.css'
+import styles from "./Square.module.css";
 
 interface ISquareProps {
-    isDark?: boolean
-    isHoverable?: boolean
-    piece?: JSX.Element
+    isDark?: boolean;
+    isHoverable?: boolean;
+    piece?: JSX.Element;
 }
 
 export const Square = (props: ISquareProps) => (
@@ -22,4 +22,4 @@ export const Square = (props: ISquareProps) => (
     >
         {props.piece}
     </div>
-)
+);
