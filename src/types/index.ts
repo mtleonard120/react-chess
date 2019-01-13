@@ -1,11 +1,14 @@
 export interface ISquare {
-    lat: number
-    long: number
+    lat: Ordinant
+    long: Ordinant
 }
 
 export interface IPiece {
-    rank: number // -1 indicates piece is dead
-    file: number // -1 indicates piece is dead
-    type: 'pawn' | 'rook' | 'knight' | 'bishop' | 'queen' | 'king'
+    rank: Ordinant
+    file: Ordinant
+    name: PieceName
     isBlack: boolean
 }
+
+export type PieceName = 'pawn' | 'rook' | 'knight' | 'bishop' | 'queen' | 'king'
+export type Ordinant = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
