@@ -1,0 +1,21 @@
+.square {
+    background: darkgray;
+    width: 10vh;
+    height: 10vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: 5px solid transparent;
+}
+
+.square.isHoverable:hover {
+    z-index: 3;
+    cursor: pointer;
+    border: 5px solid black;
+}
+
+.dark {
+    background: darkgreen;
+}
