@@ -10,4 +10,4 @@ import * as React from 'react'
 // Types
 import {IPiece} from '../../types'
 
-export const Piece = (props: IPiece) => <div>{props.name}</div>
+export const Piece: React.SFC<IPiece> = props => <div>{props.name}</div>

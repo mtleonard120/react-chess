@@ -19,3 +19,12 @@
 .dark {
     background: darkgreen;
 }
+
+.selected {
+    color: purple;
+    border: 5px solid purple;
+}
+
+.square.isHoverable.selected:hover {
+    border: 5px solid purple;
+}

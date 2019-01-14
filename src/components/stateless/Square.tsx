@@ -7,14 +7,22 @@ import {s} from '../../utils'
 // Styles
 import styles from './Square.module.css'
 
-interface ISquareProps {
+export interface ISquareProps {
     isDark?: boolean
     isHoverable?: boolean
+    isSelected?: boolean
     piece?: JSX.Element
 }
 
-export const Square = (props: ISquareProps) => (
-    <div className={s(styles.square, props.isDark && styles.dark, props.isHoverable && styles.isHoverable)}>
+export const Square: React.SFC<ISquareProps> = props => (
+    <div
+        className={s(
+            styles.square,
+            props.isDark && styles.dark,
+            props.isHoverable && styles.isHoverable,
+            props.isSelected && styles.selected
+        )}
+    >
         {props.piece}
     </div>
 )

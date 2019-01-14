@@ -12,6 +12,8 @@ import {IPiece, Ordinant} from '../../types'
 interface IAppState {
     isBlackTurn: boolean
     pieces: IPiece[]
+    selectedRank?: Ordinant
+    selectedFile?: Ordinant
 }
 
 export default class App extends Component<any, IAppState> {
@@ -69,10 +71,16 @@ export default class App extends Component<any, IAppState> {
             pieces: pieces,
         }
     }
+
+    // Event Handlers
+    public onSquareClick = (selectedFile: Ordinant, selectedRank: Ordinant) => {
+        this.setState({selectedFile, selectedRank})
+    }
+
     render() {
         return (
             <div className={styles.app}>
-                <Board pieces={this.state.pieces} />
+                <Board {...this.state} onSquareClick={this.onSquareClick} />
             </div>
         )
     }
