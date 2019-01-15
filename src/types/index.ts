@@ -8,6 +8,7 @@ export interface IPiece {
     file: Ordinant
     name: PieceName
     isBlack: boolean
+    hasMoved?: boolean
 }
 
 export type PieceName = 'pawn' | 'rook' | 'knight' | 'bishop' | 'queen' | 'king'

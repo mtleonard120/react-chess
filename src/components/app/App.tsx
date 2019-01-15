@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
 // Components
-import {Board} from '../stateful'
+import {Board} from '../../components'
 
 // Styles
 import styles from './App.module.css'
@@ -16,6 +16,7 @@ interface IAppState {
     selectedFile?: Ordinant
 }
 
+// Primary Component
 export default class App extends Component<any, IAppState> {
     constructor(props: any) {
         super(props)
