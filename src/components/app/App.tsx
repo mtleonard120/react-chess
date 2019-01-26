@@ -1,64 +1,69 @@
-import React, { Component } from "react";
+import React, {Component} from 'react'
 
 // Components
-import { Board } from "../reusables";
+import {Board} from '../../components'
+
+// Constants
+import {ORDINANTS} from '../../constants'
 
 // Styles
-import styles from "./App.module.css";
+import styles from './App.module.css'
 
 // Types
-import { IPiece } from "../../types";
+import {IPiece, Ordinant} from '../../types'
 
 interface IAppState {
-    isBlackTurn: boolean;
-    pieces: IPiece[];
+    isBlackTurn: boolean
+    pieces: IPiece[]
+    selectedPiece?: IPiece
 }
 
+// Primary Component
 export default class App extends Component<any, IAppState> {
     constructor(props: any) {
-        super(props);
+        super(props)
 
-        const pieces: IPiece[] = [];
+        const pieces: IPiece[] = []
 
         // Initial Board Setup
-        for (let i = 0; i < 8; i++) {
-            pieces.push({ rank: 1, file: i, isBlack: true, type: "pawn" });
-            pieces.push({ rank: 6, file: i, isBlack: false, type: "pawn" });
+        for (let i of ORDINANTS) {
+            pieces.push({rank: 1, file: i, isBlack: true, name: 'pawn'})
+            pieces.push({rank: 6, file: i, isBlack: false, name: 'pawn'})
         }
 
         for (let i = 0; i < 2; i++) {
             for (let j = 0; j < 2; j++) {
                 pieces.push({
-                    rank: 7 * j,
-                    file: 7 * i,
+                    rank: (7 * j) as Ordinant,
+                    file: (7 * i) as Ordinant,
                     isBlack: j === 0,
-                    type: "rook",
-                });
+                    name: 'rook',
+                })
                 pieces.push({
-                    rank: 7 * j,
-                    file: 1 - i + 6 * i,
+                    rank: (7 * j) as Ordinant,
+                    file: (1 - i + 6 * i) as Ordinant,
                     isBlack: j === 0,
-                    type: "knight",
-                });
+                    name: 'knight',
+                })
                 pieces.push({
-                    rank: 7 * j,
-                    file: 2 * (1 - i) + 5 * i,
+                    rank: (7 * j) as Ordinant,
+                    file: (2 * (1 - i) + 5 * i) as Ordinant,
                     isBlack: j === 0,
-                    type: "bishop",
-                });
+                    name: 'bishop',
+                })
                 if (i === 0) {
                     pieces.push({
-                        rank: 7 * j,
+                        rank: (7 * j) as Ordinant,
                         file: 3,
                         isBlack: j === 0,
-                        type: "queen",
-                    });
+                        name: 'queen',
+                    })
                     pieces.push({
-                        rank: 7 * j,
+                        rank: (7 * j) as Ordinant,
                         file: 4,
                         isBlack: j === 0,
-                        type: "king",
-                    });
+                        name: 'king',
+                    })
                 }
             }
         }
@@ -66,13 +71,19 @@ export default class App extends Component<any, IAppState> {
         this.state = {
             isBlackTurn: false,
             pieces: pieces,
-        };
+        }
     }
+
+    // Event Handlers
+    public onPieceSelection = (selectedPiece: IPiece) => {
+        this.setState({selectedPiece})
+    }
+
     render() {
         return (
             <div className={styles.app}>
-                <Board pieces={this.state.pieces} />
+                <Board {...this.state} onPieceSelection={this.onPieceSelection} />
             </div>
-        );
+        )
     }
 }
