@@ -1,4 +1,4 @@
-import {Ordinant, IPiece} from '../types'
+import {Ordinant, IPiece} from '../../types'
 
 // Returns the piece, if any, at the given coordinates
 export const getPieceAtCoords = (pieces: IPiece[], rank?: Ordinant, file?: Ordinant) => {

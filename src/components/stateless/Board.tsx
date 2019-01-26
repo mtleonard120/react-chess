@@ -1,11 +1,10 @@
-// React
-import * as React from 'react'
+import React from 'react'
 
 // Packages
-import _ from 'lodash'
+import {isEqual} from 'lodash'
 
 // Functions
-import {constructBoard} from '../../functions'
+import {constructBoard, getPieceAtCoords} from '../../functions'
 
 // Utils
 import {s} from '../../utils'
@@ -19,29 +18,33 @@ import {IPiece, Ordinant} from '../../types'
 interface IBoardProps {
     isBlackTurn: boolean
     pieces: IPiece[]
-    onSquareClick: (file: Ordinant, rank: Ordinant) => void
-    selectedRank?: Ordinant
-    selectedFile?: Ordinant
+    selectedPiece?: IPiece
+    onPieceSelection: (selectedPiece: IPiece) => void
 }
 
 // Primary Component
 export const Board = (props: IBoardProps) => {
-    const {isBlackTurn, pieces, onSquareClick, selectedFile, selectedRank} = props
-    const board = constructBoard(pieces, isBlackTurn, selectedFile, selectedRank)
+    const {isBlackTurn, pieces, selectedPiece, onPieceSelection} = props
+
+    const board = constructBoard(pieces, isBlackTurn, selectedPiece)
 
     return (
         <div className={styles.board}>
             {board.map((column: JSX.Element[], file: number) => (
                 <div key={-file} className={styles.column}>
-                    {column.map((sq: JSX.Element, rank: number) => (
-                        <div
-                            className={s(file === selectedFile && rank === selectedRank && styles.selected)}
-                            onClick={() => onSquareClick(file as Ordinant, rank as Ordinant)}
-                            key={file + 0.1 * rank}
-                        >
-                            {sq}
-                        </div>
-                    ))}
+                    {column.map((sq: JSX.Element, rank: number) => {
+                        const pieceOnSquare = getPieceAtCoords(pieces, rank as Ordinant, file as Ordinant)
+
+                        return (
+                            <div
+                                className={s(isEqual(selectedPiece, pieceOnSquare) && styles.selected)}
+                                onClick={pieceOnSquare ? () => onPieceSelection(pieceOnSquare) : undefined}
+                                key={file + 0.1 * rank}
+                            >
+                                {sq}
+                            </div>
+                        )
+                    })}
                 </div>
             ))}
         </div>

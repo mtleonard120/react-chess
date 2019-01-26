@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 // Function to test
-import {constructBoard} from '.'
+import {constructBoard} from '..'
 
 // Types
-import {IPiece, Ordinant} from '../types'
+import {IPiece, Ordinant} from '../../types'
 
 // Test Constants
 const pieces: IPiece[] = []

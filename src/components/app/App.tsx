@@ -3,6 +3,9 @@ import React, {Component} from 'react'
 // Components
 import {Board} from '../../components'
 
+// Constants
+import {ORDINANTS} from '../../constants'
+
 // Styles
 import styles from './App.module.css'
 
@@ -12,8 +15,7 @@ import {IPiece, Ordinant} from '../../types'
 interface IAppState {
     isBlackTurn: boolean
     pieces: IPiece[]
-    selectedRank?: Ordinant
-    selectedFile?: Ordinant
+    selectedPiece?: IPiece
 }
 
 // Primary Component
@@ -22,10 +24,9 @@ export default class App extends Component<any, IAppState> {
         super(props)
 
         const pieces: IPiece[] = []
-        const ordinants: Ordinant[] = [0, 1, 2, 3, 4, 5, 6, 7]
 
         // Initial Board Setup
-        for (let i of ordinants) {
+        for (let i of ORDINANTS) {
             pieces.push({rank: 1, file: i, isBlack: true, name: 'pawn'})
             pieces.push({rank: 6, file: i, isBlack: false, name: 'pawn'})
         }
@@ -74,14 +75,14 @@ export default class App extends Component<any, IAppState> {
     }
 
     // Event Handlers
-    public onSquareClick = (selectedFile: Ordinant, selectedRank: Ordinant) => {
-        this.setState({selectedFile, selectedRank})
+    public onPieceSelection = (selectedPiece: IPiece) => {
+        this.setState({selectedPiece})
     }
 
     render() {
         return (
             <div className={styles.app}>
-                <Board {...this.state} onSquareClick={this.onSquareClick} />
+                <Board {...this.state} onPieceSelection={this.onPieceSelection} />
             </div>
         )
     }

@@ -11,7 +11,7 @@ export interface ISquareProps {
     isDark?: boolean
     isHoverable?: boolean
     isSelected?: boolean
-    piece?: JSX.Element
+    symbol?: JSX.Element
 }
 
 export const Square: React.SFC<ISquareProps> = props => (
@@ -23,6 +23,6 @@ export const Square: React.SFC<ISquareProps> = props => (
             props.isSelected && styles.selected
         )}
     >
-        {props.piece}
+        {props.symbol}
     </div>
 )

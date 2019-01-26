@@ -1,29 +1,26 @@
 // React
 import * as React from 'react'
 
+// Packages
+import {isEqual} from 'lodash'
+
 // Components
-import {Piece, Square} from '../components'
+import {Piece, Square} from '../../components'
 
 // Functions
-import {getPieceAtCoords, getPotentialMoveSquares} from '.'
+import {getPieceAtCoords} from '..'
 
 // Types
-import {IPiece, Ordinant} from '../types'
+import {IPiece, Ordinant} from '../../types'
 
 // Returns an 8x8 board of squares with pieces properly displayed
-export const constructBoard = (
-    pieces: IPiece[],
-    isBlackTurn: boolean,
-    selectedFile?: Ordinant,
-    selectedRank?: Ordinant
-) => {
+export const constructBoard = (pieces: IPiece[], isBlackTurn: boolean, selectedPiece?: IPiece) => {
     const board: JSX.Element[][] = [[], [], [], [], [], [], [], []]
 
     for (let file = 0; file < 8; file++) {
         for (let rank = 0; rank < 8; rank++) {
-            const piece = getPieceAtCoords(pieces, rank as Ordinant, file as Ordinant)
-            const potentialMoveSquares = getPotentialMoveSquares(pieces, selectedRank, selectedFile)
             let symbol: JSX.Element | undefined = undefined
+            const piece = getPieceAtCoords(pieces, rank as Ordinant, file as Ordinant)
 
             if (piece) {
                 symbol = (
@@ -37,8 +34,8 @@ export const constructBoard = (
                 <Square
                     isDark={isDark}
                     isHoverable={piece && ((piece.isBlack && isBlackTurn) || (!piece.isBlack && !isBlackTurn))}
-                    isSelected={file === selectedFile && rank === selectedRank}
-                    piece={symbol}
+                    isSelected={isEqual(selectedPiece, piece)}
+                    symbol={symbol}
                 />
             )
         }

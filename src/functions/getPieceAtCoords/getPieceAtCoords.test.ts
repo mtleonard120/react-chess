@@ -1,8 +1,8 @@
 // Function to test
-import {getPieceAtCoords} from '.'
+import {getPieceAtCoords} from './getPieceAtCoords'
 
 // Types
-import {IPiece, Ordinant} from '../types'
+import {IPiece, Ordinant} from '../../types'
 
 // Test Constants
 const pieces: IPiece[] = []

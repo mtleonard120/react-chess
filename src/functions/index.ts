@@ -1,3 +1,3 @@
-export {getPotentialMoveSquares} from './getPotentialMoveSquares'
+export {getMoveCoords} from './getMoveCoords'
 export {constructBoard} from './constructBoard'
 export {getPieceAtCoords} from './getPieceAtCoords'
